@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prerequisites Test – Physics · Aerospace Engineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Source+Code+Pro:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<!-- MathJax for rendering formulas -->
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root {
+  --bg: #04080f;
+  --surface: #0b1624;
+  --surface2: #101e30;
+  --border: rgba(100,180,255,0.12);
+  --accent: #38bdf8;
+  --accent2: #0ea5e9;
+  --gold: #fbbf24;
+  --green: #34d399;
+  --red: #f87171;
+  --text: #e2eaf5;
+  --muted: #5a7a99;
+  --correct: #052e16;
+  --correct-border: #34d399;
+  --wrong: #1f0707;
+  --wrong-border: #f87171;
+  --selected: #0c2340;
+  --selected-border: #38bdf8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, #071829 0%, transparent 60%),
+    linear-gradient(180deg, #04080f 0%, #060d18 100%);
+  font-family: 'Lato', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── GRID OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── HEADER ── */
+header {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 52px 24px 40px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #071422 0%, transparent 100%);
+}
+.dept-tag {
+  display: inline-block;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 10px; letter-spacing: 5px;
+  color: var(--accent); text-transform: uppercase;
+  border: 1px solid rgba(56,189,248,0.3);
+  border-radius: 20px; padding: 4px 16px;
+  margin-bottom: 18px;
+}
+h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(18px, 3.5vw, 34px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 2px;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+h1 span { color: var(--accent); }
+.subtitle {
+  font-size: 13px; color: var(--muted); font-weight: 300;
+  letter-spacing: 1px; margin-bottom: 24px;
+}
+.meta-row {
+  display: flex; flex-wrap: wrap; gap: 20px;
+  justify-content: center; font-family: 'Source Code Pro', monospace;
+  font-size: 11px; color: var(--muted);
+}
+.meta-item { display: flex; align-items: center; gap: 6px; }
+.meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(4,8,15,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+.progress-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 11px; color: var(--muted); white-space: nowrap;
+}
+.progress-track {
+  flex: 1; height: 4px; background: rgba(255,255,255,0.08);
+  border-radius: 2px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent));
+  border-radius: 2px; transition: width 0.4s ease;
+  width: 0%;
+}
+.progress-count {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 11px; color: var(--accent); white-space: nowrap;
+}
+
+/* ── MAIN ── */
+main {
+  position: relative; z-index: 1;
+  max-width: 820px; margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ── QUESTION CARD ── */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s;
+  animation: slideIn 0.4s ease both;
+}
+.q-card:hover { border-color: rgba(56,189,248,0.22); }
+
+@keyframes slideIn {
+  from { opacity:0; transform: translateY(12px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.q-header {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-bottom: 18px;
+}
+.q-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px; font-weight: 600;
+  color: var(--accent); background: rgba(56,189,248,0.1);
+  border: 1px solid rgba(56,189,248,0.25);
+  border-radius: 8px; padding: 4px 10px;
+  white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+}
+.q-score-badge {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 10px; color: var(--gold);
+  background: rgba(251,191,36,0.08);
+  border: 1px solid rgba(251,191,36,0.2);
+  border-radius: 8px; padding: 4px 8px;
+  white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+}
+.q-text {
+  font-size: 15px; line-height: 1.65; color: var(--text);
+  font-weight: 400;
+}
+
+/* ── OPTIONS ── */
+.options { display: flex; flex-direction: column; gap: 10px; }
+
+.opt-label {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px; padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  user-select: none;
+}
+.opt-label:hover {
+  background: rgba(56,189,248,0.06);
+  border-color: rgba(56,189,248,0.25);
+}
+.opt-label input[type="radio"] { display: none; }
+
+.opt-letter {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 11px; font-weight: 600;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  flex-shrink: 0; color: var(--muted);
+  transition: all 0.2s;
+}
+.opt-text { font-size: 14px; line-height: 1.5; color: #b8cfe0; }
+
+/* Selected state */
+.opt-label.selected {
+  background: var(--selected);
+  border-color: var(--selected-border);
+}
+.opt-label.selected .opt-letter {
+  background: var(--accent); color: #fff;
+  border-color: var(--accent);
+}
+.opt-label.selected .opt-text { color: var(--text); }
+
+/* After submission */
+.opt-label.correct-ans {
+  background: rgba(52,211,153,0.08);
+  border-color: var(--correct-border);
+}
+.opt-label.correct-ans .opt-letter {
+  background: var(--green); color: #fff;
+  border-color: var(--green);
+}
+.opt-label.wrong-ans {
+  background: rgba(248,113,113,0.08);
+  border-color: var(--wrong-border);
+}
+.opt-label.wrong-ans .opt-letter {
+  background: var(--red); color: #fff;
+  border-color: var(--red);
+}
+
+/* Result feedback on card */
+.q-feedback {
+  display: none;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Source Code Pro', monospace;
+}
+.q-feedback.correct {
+  display: block;
+  background: rgba(52,211,153,0.08);
+  border: 1px solid rgba(52,211,153,0.25);
+  color: var(--green);
+}
+.q-feedback.wrong {
+  display: block;
+  background: rgba(248,113,113,0.08);
+  border: 1px solid rgba(248,113,113,0.25);
+  color: var(--red);
+}
+.q-feedback.unanswered {
+  display: block;
+  background: rgba(251,191,36,0.06);
+  border: 1px solid rgba(251,191,36,0.2);
+  color: var(--gold);
+}
+
+/* ── SUBMIT BUTTON ── */
+.submit-wrap {
+  text-align: center; margin-top: 40px;
+}
+#submitBtn {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px; font-weight: 600; letter-spacing: 2px;
+  background: linear-gradient(135deg, #0369a1, #0284c7);
+  color: #fff; border: none; border-radius: 12px;
+  padding: 16px 48px; cursor: pointer;
+  box-shadow: 0 0 30px rgba(56,189,248,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(56,189,248,0.4);
+}
+#submitBtn:disabled {
+  background: rgba(255,255,255,0.08);
+  color: var(--muted); cursor: not-allowed;
+  box-shadow: none; transform: none;
+}
+
+/* ── RESULTS PANEL ── */
+#resultsPanel {
+  display: none;
+  background: var(--surface2);
+  border: 1px solid rgba(56,189,248,0.25);
+  border-radius: 20px;
+  padding: 36px 32px;
+  margin-top: 40px;
+  text-align: center;
+  animation: fadeUp 0.5s ease;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.result-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px; letter-spacing: 3px;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.result-score {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(48px, 8vw, 72px);
+  font-weight: 800; line-height: 1;
+  margin-bottom: 8px;
+}
+.result-fraction {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px; color: var(--muted); margin-bottom: 24px;
+}
+.result-bar-wrap {
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px; height: 12px;
+  margin: 0 auto 24px; max-width: 400px; overflow: hidden;
+}
+.result-bar-fill {
+  height: 100%; border-radius: 8px;
+  transition: width 1s ease;
+  background: linear-gradient(90deg, #0369a1, #38bdf8);
+}
+.result-stats {
+  display: flex; justify-content: center; gap: 32px;
+  flex-wrap: wrap; margin-bottom: 20px;
+}
+.stat { text-align: center; }
+.stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 24px; font-weight: 600;
+}
+.stat-lbl {
+  font-size: 11px; color: var(--muted);
+  font-family: 'Source Code Pro', monospace;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.result-msg {
+  font-size: 14px; color: var(--muted);
+  font-weight: 300; line-height: 1.7; margin-top: 12px;
+}
+
+#retryBtn {
+  display: inline-block; margin-top: 24px;
+  font-family: 'Orbitron', monospace;
+  font-size: 11px; letter-spacing: 2px;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(56,189,248,0.3);
+  border-radius: 10px; padding: 10px 28px;
+  cursor: pointer; transition: all 0.2s;
+}
+#retryBtn:hover { background: rgba(56,189,248,0.08); }
+
+footer {
+  text-align: center; padding: 32px 24px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 10px; color: #1e3a52; letter-spacing: 1.5px;
+  position: relative; z-index: 1;
+}
+
+/* ── NAME MODAL ── */
+#nameModal {
+  display: none;
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(4,8,15,0.88);
+  backdrop-filter: blur(12px);
+  align-items: center; justify-content: center;
+}
+#nameModal.open { display: flex; }
+
+.modal-box {
+  background: var(--surface2);
+  border: 1px solid rgba(56,189,248,0.3);
+  border-radius: 20px;
+  padding: 44px 40px 36px;
+  max-width: 460px; width: 90%;
+  text-align: center;
+  animation: fadeUp 0.35s ease;
+  box-shadow: 0 0 60px rgba(56,189,248,0.12);
+}
+.modal-icon {
+  font-size: 36px; margin-bottom: 16px;
+}
+.modal-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 2px; color: #fff;
+  margin-bottom: 8px;
+}
+.modal-sub {
+  font-size: 13px; color: var(--muted);
+  margin-bottom: 28px; line-height: 1.6;
+}
+#studentNameInput {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(56,189,248,0.25);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: var(--text);
+  font-family: 'Lato', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 8px;
+}
+#studentNameInput:focus {
+  border-color: var(--accent);
+  background: rgba(56,189,248,0.05);
+}
+#studentNameInput::placeholder { color: var(--muted); }
+
+.modal-error {
+  font-size: 12px; color: var(--red);
+  font-family: 'Source Code Pro', monospace;
+  min-height: 18px; margin-bottom: 16px;
+  text-align: left;
+}
+.modal-actions { display: flex; gap: 12px; justify-content: center; }
+
+#modalConfirmBtn {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px; font-weight: 600; letter-spacing: 2px;
+  background: linear-gradient(135deg, #0369a1, #0284c7);
+  color: #fff; border: none; border-radius: 10px;
+  padding: 12px 32px; cursor: pointer;
+  box-shadow: 0 0 20px rgba(56,189,248,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#modalConfirmBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(56,189,248,0.35);
+}
+#modalCancelBtn {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px; letter-spacing: 2px;
+  background: transparent; color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 12px 24px;
+  cursor: pointer; transition: all 0.2s;
+}
+#modalCancelBtn:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
+
+/* Save-status banner */
+#saveStatus {
+  display: none;
+  margin-top: 16px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: 'Source Code Pro', monospace;
+}
+#saveStatus.saving {
+  display: block;
+  background: rgba(56,189,248,0.06);
+  border: 1px solid rgba(56,189,248,0.2);
+  color: var(--accent);
+}
+#saveStatus.ok {
+  display: block;
+  background: rgba(52,211,153,0.08);
+  border: 1px solid rgba(52,211,153,0.25);
+  color: var(--green);
+}
+#saveStatus.err {
+  display: block;
+  background: rgba(248,113,113,0.08);
+  border: 1px solid rgba(248,113,113,0.25);
+  color: var(--red);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="dept-tag">Bachelor's Degree in Aerospace Engineering</div>
+  <h1>PREREQUISITES TEST<br><span>Physics</span></h1>
+  <p class="subtitle">Initial Diagnostic Assessment · Academic Course</p>
+  <div class="meta-row">
+    <div class="meta-item"><div class="meta-dot"></div>25 Questions</div>
+    <div class="meta-item"><div class="meta-dot"></div>0.4 pts per question</div>
+    <div class="meta-item"><div class="meta-dot"></div>Maximum score: 10 pts</div>
+    <div class="meta-item"><div class="meta-dot"></div>Single correct answer</div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <span class="progress-label">Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-count" id="progressCount">0 / 25</span>
+</div>
+
+<main>
+  <form id="quizForm"></form>
+
+  <div class="submit-wrap">
+    <button type="button" id="submitBtn" onclick="openNameModal()">SUBMIT &amp; CHECK ANSWERS</button>
+  </div>
+
+  <div id="resultsPanel">
+    <div class="result-title">Your Result</div>
+    <div class="result-score" id="resultScore"></div>
+    <div class="result-fraction" id="resultFraction"></div>
+    <div class="result-bar-wrap"><div class="result-bar-fill" id="resultBar"></div></div>
+    <div class="result-stats">
+      <div class="stat">
+        <div class="stat-num" id="statCorrect" style="color:var(--green)"></div>
+        <div class="stat-lbl">Correct</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="statWrong" style="color:var(--red)"></div>
+        <div class="stat-lbl">Wrong</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="statBlank" style="color:var(--gold)"></div>
+        <div class="stat-lbl">Unanswered</div>
+      </div>
+    </div>
+    <p class="result-msg" id="resultMsg"></p>
+    <div id="saveStatus"></div>
+    <button id="retryBtn" onclick="resetTest()">↺ TRY AGAIN</button>
+  </div>
+</main>
+
+<!-- ── NAME MODAL ── -->
+<div id="nameModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-icon">🚀</div>
+    <div class="modal-title" id="modalTitle">IDENTIFY YOURSELF</div>
+    <p class="modal-sub">Please enter your full name before submitting.<br>Your result will be saved to the grade record.</p>
+    <input type="text" id="studentNameInput" placeholder="First name and surname(s)" autocomplete="name" maxlength="120">
+    <div class="modal-error" id="modalError"></div>
+    <div class="modal-actions">
+      <button id="modalCancelBtn" onclick="closeModal()">CANCEL</button>
+      <button id="modalConfirmBtn" onclick="confirmName()">SUBMIT TEST</button>
+    </div>
+  </div>
+</div>
+
+<footer>Physics Department · Aerospace Engineering · Prerequisites Diagnostic Test</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// QUESTIONS DATA
+// ══════════════════════════════════════════════════════════════
+const questions = [
+  {
+    id: 1,
+    text: `Given the vectors $\\vec{A} = (1, 2, 3)$ and $\\vec{B} = (4, -1, 2)$, what is $\\vec{A} + \\vec{B}$?`,
+    options: [
+      `$(5, 1, 5)$`,
+      `$(3, 3, 1)$`,
+      `$(5, 3, 5)$`,
+      `$(4, 2, 6)$`
+    ],
+    correct: 0,
+    explanation: `Component-wise addition: $(1+4,\\; 2+(-1),\\; 3+2) = (5, 1, 5)$.`
+  },
+  {
+    id: 2,
+    text: `What is the distance between the points $P = (1, 2)$ and $Q = (4, 6)$?`,
+    options: [
+      `$3$`,
+      `$5$`,
+      `$7$`,
+      `$\\sqrt{5}$`
+    ],
+    correct: 1,
+    explanation: `$d = \\sqrt{(4-1)^2 + (6-2)^2} = \\sqrt{9+16} = \\sqrt{25} = 5$.`
+  },
+  {
+    id: 3,
+    text: `In a Uniform Linear Motion (ULM), which statement is correct?`,
+    options: [
+      `The acceleration is constant and non-zero.`,
+      `The velocity is constant (and the acceleration is zero).`,
+      `Both velocity and acceleration are constant and non-zero.`,
+      `The displacement is constant.`
+    ],
+    correct: 1,
+    explanation: `In ULM, by definition the velocity is constant, which implies zero acceleration.`
+  },
+  {
+    id: 4,
+    text: `What are the base units for mass, length and time in the International System of Units (SI)?`,
+    options: [
+      `gram (g), centimetre (cm), second (s)`,
+      `kilogram (kg), metre (m), second (s)`,
+      `kilogram (kg), kilometre (km), hour (h)`,
+      `pound (lb), foot (ft), second (s)`
+    ],
+    correct: 1,
+    explanation: `The SI base units are: mass → kilogram (kg), length → metre (m), time → second (s).`
+  },
+  {
+    id: 5,
+    text: `Calculate the derivative of $f(x) = 3x^2 + 5x - 7$.`,
+    options: [
+      `$f'(x) = 6x^2 + 5$`,
+      `$f'(x) = 3x + 5$`,
+      `$f'(x) = 6x + 5$`,
+      `$f'(x) = x^2 + 5$`
+    ],
+    correct: 2,
+    explanation: `Applying the power rule: $\\frac{d}{dx}(3x^2) = 6x$, $\\frac{d}{dx}(5x) = 5$, constant vanishes. So $f'(x) = 6x + 5$.`
+  },
+  {
+    id: 6,
+    text: `Compute the integral $\\displaystyle\\int 4x^3\\, dx$.`,
+    options: [
+      `$12x^2 + C$`,
+      `$x^4 + C$`,
+      `$4x^4 + C$`,
+      `$4x^2 + C$`
+    ],
+    correct: 1,
+    explanation: `$\\int 4x^3\\,dx = 4 \\cdot \\dfrac{x^4}{4} + C = x^4 + C$.`
+  },
+  {
+    id: 7,
+    text: `Pythagoras' theorem for a right triangle with legs $a$, $b$ and hypotenuse $c$ states:`,
+    options: [
+      `$a + b = c$`,
+      `$a^2 + b^2 = c^2$`,
+      `$a^2 - b^2 = c^2$`,
+      `$a^3 + b^3 = c^3$`
+    ],
+    correct: 1,
+    explanation: `Pythagoras: $a^2 + b^2 = c^2$, where $c$ is the hypotenuse.`
+  },
+  {
+    id: 8,
+    text: `What is the domain and image (range) of $f(x) = \\sqrt{x}$?`,
+    options: [
+      `Domain: $\\mathbb{R}$; Image: $\\mathbb{R}$`,
+      `Domain: $x > 0$; Image: $\\mathbb{R}^+$`,
+      `Domain: $x \\geq 0$; Image: $y \\geq 0$`,
+      `Domain: $x \\geq 1$; Image: $y \\geq 1$`
+    ],
+    correct: 2,
+    explanation: `$\\sqrt{x}$ requires $x \\geq 0$, and produces values $y \\geq 0$. Domain: $[0, +\\infty)$, Image: $[0, +\\infty)$.`
+  },
+  {
+    id: 9,
+    text: `What is the area of a circle of radius $r$?`,
+    options: [
+      `$A = 2\\pi r$`,
+      `$A = \\pi r^2$`,
+      `$A = 4\\pi r^2$`,
+      `$A = \\pi r^3 / 3$`
+    ],
+    correct: 1,
+    explanation: `Area of a circle: $A = \\pi r^2$.`
+  },
+  {
+    id: 10,
+    text: `What is the perimeter (circumference) of a circle of radius $r$?`,
+    options: [
+      `$P = \\pi r^2$`,
+      `$P = \\pi r$`,
+      `$P = 2\\pi r$`,
+      `$P = 4\\pi r$`
+    ],
+    correct: 2,
+    explanation: `Circumference: $P = 2\\pi r$ (or equivalently $\\pi d$ where $d = 2r$).`
+  },
+  {
+    id: 11,
+    text: `Solve for $x$ in the equation $2x^2 - 8 = 0$.`,
+    options: [
+      `$x = 2$`,
+      `$x = \\pm 4$`,
+      `$x = \\pm 2$`,
+      `$x = 4$`
+    ],
+    correct: 2,
+    explanation: `$2x^2 = 8 \\Rightarrow x^2 = 4 \\Rightarrow x = \\pm 2$.`
+  },
+  {
+    id: 12,
+    text: `Convert $100$ km/h to m/s.`,
+    options: [
+      `$360$ m/s`,
+      `$27.\\overline{7}$ m/s`,
+      `$10$ m/s`,
+      `$1000$ m/s`
+    ],
+    correct: 1,
+    explanation: `$100\\,\\text{km/h} = 100 \\times \\dfrac{1000\\,\\text{m}}{3600\\,\\text{s}} = \\dfrac{100}{3.6} \\approx 27.78\\,\\text{m/s}$.`
+  },
+  {
+    id: 13,
+    text: `How many hours is $1$ second equivalent to?`,
+    options: [
+      `$1/60$ hours`,
+      `$1/3600$ hours`,
+      `$1/360$ hours`,
+      `$1/86400$ hours`
+    ],
+    correct: 1,
+    explanation: `$1\\,\\text{s} = \\dfrac{1}{3600}\\,\\text{h}$, since $1\\,\\text{h} = 3600\\,\\text{s}$.`
+  },
+  {
+    id: 14,
+    text: `What is the approximate distance from Earth to the Sun?`,
+    options: [
+      `$\\approx 150{,}000$ km`,
+      `$\\approx 1.5 \\times 10^{8}$ km`,
+      `$\\approx 1.5 \\times 10^{6}$ km`,
+      `$\\approx 1.5 \\times 10^{11}$ m`
+    ],
+    correct: 3,
+    explanation: `$1\\,\\text{AU} \\approx 1.496 \\times 10^{11}\\,\\text{m} \\approx 150$ million km. Option D expresses this correctly in metres.`
+  },
+  {
+    id: 15,
+    text: `What is the approximate translational (orbital) velocity of Earth around the Sun?`,
+    options: [
+      `$\\approx 30$ km/s`,
+      `$\\approx 300$ km/s`,
+      `$\\approx 3$ km/s`,
+      `$\\approx 0.3$ km/s`
+    ],
+    correct: 0,
+    explanation: `Earth travels its orbit ($\\approx 940\\times10^6$ km) in 1 year ($\\approx 3.15\\times10^7$ s), giving $\\approx 30$ km/s.`
+  },
+  {
+    id: 16,
+    text: `Calculate the dot product of $\\vec{u} = (2, 3, 1)$ and $\\vec{v} = (1, -1, 4)$.`,
+    options: [
+      `$3$`,
+      `$-1$`,
+      `$3$`,
+      `$3$`
+    ],
+    options: [
+      `$\\vec{u} \\cdot \\vec{v} = 3$`,
+      `$\\vec{u} \\cdot \\vec{v} = -1$`,
+      `$\\vec{u} \\cdot \\vec{v} = 7$`,
+      `$\\vec{u} \\cdot \\vec{v} = 9$`
+    ],
+    correct: 0,
+    explanation: `$\\vec{u}\\cdot\\vec{v} = 2(1) + 3(-1) + 1(4) = 2 - 3 + 4 = 3$.`
+  },
+  {
+    id: 17,
+    text: `What is the modulus (magnitude) of the vector $\\vec{w} = (3, 4, 0)$?`,
+    options: [
+      `$|\\vec{w}| = 7$`,
+      `$|\\vec{w}| = 5$`,
+      `$|\\vec{w}| = 25$`,
+      `$|\\vec{w}| = \\sqrt{7}$`
+    ],
+    correct: 1,
+    explanation: `$|\\vec{w}| = \\sqrt{3^2 + 4^2 + 0^2} = \\sqrt{9+16} = \\sqrt{25} = 5$.`
+  },
+  {
+    id: 18,
+    text: `Convert $32°$ to radians, using $\\pi \\approx 3$.`,
+    options: [
+      `$\\approx 0.53$ rad`,
+      `$\\approx 1.60$ rad`,
+      `$\\approx 0.27$ rad`,
+      `$\\approx 8/15$ rad`
+    ],
+    correct: 3,
+    explanation: `$32° \\times \\dfrac{\\pi}{180°} = \\dfrac{32\\pi}{180} = \\dfrac{8\\pi}{45}$. Using $\\pi \\approx 3$: $\\dfrac{8 \\times 3}{45} = \\dfrac{24}{45} = \\dfrac{8}{15}\\,\\text{rad} \\approx 0.533\\,\\text{rad}$.`
+  },
+  {
+    id: 19,
+    text: `Calculate $\\sin(30°)$.`,
+    options: [
+      `$\\sin(30°) = \\dfrac{\\sqrt{3}}{2}$`,
+      `$\\sin(30°) = \\dfrac{1}{2}$`,
+      `$\\sin(30°) = 1$`,
+      `$\\sin(30°) = \\dfrac{\\sqrt{2}}{2}$`
+    ],
+    correct: 1,
+    explanation: `From the unit circle (or 30-60-90 triangle): $\\sin(30°) = \\dfrac{1}{2}$.`
+  },
+  {
+    id: 20,
+    text: `Calculate $\\cos(60°)$.`,
+    options: [
+      `$\\cos(60°) = \\dfrac{\\sqrt{3}}{2}$`,
+      `$\\cos(60°) = \\dfrac{\\sqrt{2}}{2}$`,
+      `$\\cos(60°) = \\dfrac{1}{2}$`,
+      `$\\cos(60°) = 0$`
+    ],
+    correct: 2,
+    explanation: `From the unit circle: $\\cos(60°) = \\dfrac{1}{2}$.`
+  },
+  {
+    id: 21,
+    text: `Given $\\vec{A} = (1, 0, 0)$ and $\\vec{B} = (0, 1, 0)$, what is $\\vec{A} \\cdot \\vec{B}$ (dot product)?`,
+    options: [
+      `$\\vec{A} \\cdot \\vec{B} = 1$`,
+      `$\\vec{A} \\cdot \\vec{B} = 0$`,
+      `$\\vec{A} \\cdot \\vec{B} = -1$`,
+      `$\\vec{A} \\cdot \\vec{B} = 2$`
+    ],
+    correct: 1,
+    explanation: `$\\vec{A}\\cdot\\vec{B} = 1(0) + 0(1) + 0(0) = 0$. Perpendicular unit vectors have zero dot product.`
+  },
+  {
+    id: 22,
+    text: `What is the approximate distance from Earth to the Moon?`,
+    options: [
+      `$\\approx 384{,}000$ km`,
+      `$\\approx 38{,}400$ km`,
+      `$\\approx 3{,}840{,}000$ km`,
+      `$\\approx 150 \\times 10^6$ km`
+    ],
+    correct: 0,
+    explanation: `The average Earth–Moon distance is approximately $384{,}400$ km (about 60 Earth radii).`
+  },
+  {
+    id: 23,
+    text: `Is the gravitational acceleration on Earth's surface constant? If so, what is its approximate value?`,
+    options: [
+      `No, it varies continuously and has no standard value.`,
+      `Yes, $g \\approx 9.8\\,\\text{m/s}^2$ (approximately constant near the surface).`,
+      `Yes, $g = 9.8\\,\\text{km/s}^2$.`,
+      `Yes, $g = 1.62\\,\\text{m/s}^2$.`
+    ],
+    correct: 1,
+    explanation: `Near Earth's surface $g \\approx 9.8\\,\\text{m/s}^2$ and is treated as approximately constant for most engineering problems.`
+  },
+  {
+    id: 24,
+    text: `What is roughly the average cruising speed of a Boeing 777?`,
+    options: [
+      `$\\approx 500$ km/h`,
+      `$\\approx 905$ km/h`,
+      `$\\approx 1{,}500$ km/h`,
+      `$\\approx 300$ km/h`
+    ],
+    correct: 1,
+    explanation: `The Boeing 777 cruises at approximately 905 km/h (Mach 0.84), or about 250 m/s.`
+  },
+  {
+    id: 25,
+    text: `What is the average walking speed of a person, roughly in km/h?`,
+    options: [
+      `$\\approx 1$ km/h`,
+      `$\\approx 5$ km/h`,
+      `$\\approx 15$ km/h`,
+      `$\\approx 20$ km/h`
+    ],
+    correct: 1,
+    explanation: `A typical walking pace is about 4–6 km/h, commonly approximated as 5 km/h (≈ 1.4 m/s).`
+  }
+];
+
+const SCORE_PER_Q = 0.4;
+let answered = new Set();
+
+// ══════════════════════════════════════════════════════════════
+// RENDER QUESTIONS
+// ══════════════════════════════════════════════════════════════
+function buildQuiz() {
+  const form = document.getElementById('quizForm');
+  form.innerHTML = '';
+  answered.clear();
+  updateProgress();
+
+  questions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `card-${qi}`;
+    card.style.animationDelay = `${qi * 0.03}s`;
+
+    const letters = ['A','B','C','D'];
+    const optionsHTML = q.options.map((opt, oi) => `
+      <label class="opt-label" id="opt-${qi}-${oi}" onclick="selectOption(${qi}, ${oi})">
+        <input type="radio" name="q${qi}" value="${oi}">
+        <div class="opt-letter">${letters[oi]}</div>
+        <div class="opt-text">${opt}</div>
+      </label>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="q-header">
+        <div class="q-num">Q${q.id}</div>
+        <div class="q-text">${q.text}</div>
+        <div class="q-score-badge">0.4 pts</div>
+      </div>
+      <div class="options">${optionsHTML}</div>
+      <div class="q-feedback" id="feedback-${qi}"></div>
+    `;
+    form.appendChild(card);
+  });
+
+  // Re-render MathJax
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+// ══════════════════════════════════════════════════════════════
+// OPTION SELECTION
+// ══════════════════════════════════════════════════════════════
+function selectOption(qi, oi) {
+  // Clear previous selection for this question
+  questions[qi].options.forEach((_, idx) => {
+    document.getElementById(`opt-${qi}-${idx}`)?.classList.remove('selected');
+  });
+  document.getElementById(`opt-${qi}-${oi}`)?.classList.add('selected');
+  answered.add(qi);
+  updateProgress();
+}
+
+function updateProgress() {
+  const pct = (answered.size / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = `${answered.size} / ${questions.length}`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// NAME MODAL
+// ══════════════════════════════════════════════════════════════
+function openNameModal() {
+  document.getElementById('nameModal').classList.add('open');
+  document.getElementById('studentNameInput').value = '';
+  document.getElementById('modalError').textContent = '';
+  setTimeout(() => document.getElementById('studentNameInput').focus(), 100);
+}
+
+function closeModal() {
+  document.getElementById('nameModal').classList.remove('open');
+}
+
+function confirmName() {
+  const nameInput = document.getElementById('studentNameInput');
+  const errorEl   = document.getElementById('modalError');
+  const name = nameInput.value.trim();
+
+  if (!name) {
+    errorEl.textContent = '⚠ Please enter your full name to continue.';
+    nameInput.focus();
+    return;
+  }
+  if (name.split(/\s+/).length < 2) {
+    errorEl.textContent = '⚠ Please enter both your first name and surname(s).';
+    nameInput.focus();
+    return;
+  }
+
+  closeModal();
+  submitTest(name);
+}
+
+// Allow Enter key in name input
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('studentNameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') confirmName();
+    if (e.key === 'Escape') closeModal();
+  });
+});
+
+// ══════════════════════════════════════════════════════════════
+// SUBMIT
+// ══════════════════════════════════════════════════════════════
+function submitTest(studentName) {
+  let correct = 0, wrong = 0, blank = 0;
+
+  questions.forEach((q, qi) => {
+    const selected = document.querySelector(`input[name="q${qi}"]:checked`);
+    const feedback = document.getElementById(`feedback-${qi}`);
+
+    // Disable all options
+    q.options.forEach((_, oi) => {
+      const lbl = document.getElementById(`opt-${qi}-${oi}`);
+      if (lbl) {
+        lbl.style.pointerEvents = 'none';
+        lbl.style.cursor = 'default';
+      }
+    });
+
+    // Highlight correct answer always
+    const correctLbl = document.getElementById(`opt-${qi}-${q.correct}`);
+    if (correctLbl) correctLbl.classList.add('correct-ans');
+
+    if (!selected) {
+      blank++;
+      feedback.className = 'q-feedback unanswered';
+      feedback.innerHTML = `⚠ Not answered — correct answer: <strong>${['A','B','C','D'][q.correct]}</strong>. ${q.explanation}`;
+    } else {
+      const chosen = parseInt(selected.value);
+      if (chosen === q.correct) {
+        correct++;
+        feedback.className = 'q-feedback correct';
+        feedback.innerHTML = `✓ Correct! ${q.explanation}`;
+      } else {
+        wrong++;
+        const wrongLbl = document.getElementById(`opt-${qi}-${chosen}`);
+        if (wrongLbl) wrongLbl.classList.add('wrong-ans');
+        feedback.className = 'q-feedback wrong';
+        feedback.innerHTML = `✗ Incorrect — correct answer was <strong>${['A','B','C','D'][q.correct]}</strong>. ${q.explanation}`;
+      }
+    }
+  });
+
+  // MathJax re-render feedback
+  if (window.MathJax) MathJax.typesetPromise();
+
+  // Calculate score
+  const score = correct * SCORE_PER_Q;
+
+  // ── SAVE GRADE ──
+  saveGrade(studentName, correct, wrong, blank, score);
+
+  // Show result panel
+  const panel = document.getElementById('resultsPanel');
+  panel.style.display = 'block';
+
+  const scoreEl = document.getElementById('resultScore');
+  scoreEl.textContent = score.toFixed(1);
+  if (score >= 8) scoreEl.style.color = 'var(--green)';
+  else if (score >= 5) scoreEl.style.color = 'var(--accent)';
+  else scoreEl.style.color = 'var(--red)';
+
+  document.getElementById('resultFraction').textContent = `${correct} correct out of 25 questions`;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statBlank').textContent = blank;
+
+  setTimeout(() => {
+    document.getElementById('resultBar').style.width = (score / 10 * 100) + '%';
+  }, 100);
+
+  let msg = '';
+  if (score === 10) msg = "Perfect score! Excellent command of the prerequisites. 🚀";
+  else if (score >= 8) msg = "Very good result. You are well prepared for the Physics course.";
+  else if (score >= 6) msg = "Good level. Review a few topics before the course starts.";
+  else if (score >= 4) msg = "Moderate result. We recommend reviewing the indicated topics carefully.";
+  else msg = "Several important gaps detected. It is strongly recommended to review the prerequisite material before the course.";
+  document.getElementById('resultMsg').textContent = msg;
+
+  document.getElementById('submitBtn').disabled = true;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ══════════════════════════════════════════════════════════════
+// SAVE GRADE TO grades.txt  (via server-side save_grade.php)
+// ══════════════════════════════════════════════════════════════
+async function saveGrade(name, correct, wrong, blank, score) {
+  const now = new Date();
+  const timestamp = now.toISOString().replace('T', ' ').substring(0, 19);
+  const line = `${timestamp} | ${name.padEnd(40)} | Score: ${score.toFixed(1).padStart(4)}/10 | Correct: ${String(correct).padStart(2)} | Wrong: ${String(wrong).padStart(2)} | Blank: ${String(blank).padStart(2)}`;
+
+  const statusEl = document.getElementById('saveStatus');
+  statusEl.className = 'saving';
+  statusEl.textContent = 'Saving grade…';
+
+  try {
+    const response = await fetch('save_grade.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ line })
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.ok) {
+      statusEl.className = 'ok';
+      statusEl.innerHTML = `✓ Grade recorded successfully for <strong>${name}</strong>.`;
+    } else {
+      throw new Error(data.error || 'Server returned an error.');
+    }
+  } catch (err) {
+    statusEl.className = 'err';
+    statusEl.textContent = `⚠ Could not save grade: ${err.message}`;
+    console.error('Grade save error:', err);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RESET
+// ══════════════════════════════════════════════════════════════
+function resetTest() {
+  document.getElementById('resultsPanel').style.display = 'none';
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('saveStatus').className = '';
+  document.getElementById('saveStatus').textContent = '';
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+buildQuiz();
+</script>
+</body>
+</html>
